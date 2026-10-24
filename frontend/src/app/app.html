@@ -1,0 +1,62 @@
+<main class="shell">
+  <header>
+    <h1>Loan Default Risk Predictor</h1>
+    <p>Teaching prototype • XGBoost model trained on LendingClub data</p>
+  </header>
+
+  @if (deployedStatic) {
+    <aside class="notice">
+      Static GitHub Pages demonstration only.
+      Predictions require Flask and Angular running locally.
+    </aside>
+  }
+
+  <form (ngSubmit)="submit()">
+    <h2>Borrower & Loan Details ({{fields.length}} fields)</h2>
+    <div class="grid">
+      @for (field of fields; track field.name) {
+        <label>
+          {{field.label}}
+          @if (field.kind === 'number') {
+            <input type="number" step="any" [name]="field.name"
+                   [min]="field.min ?? null" [max]="field.max ?? null"
+                   [(ngModel)]="values[field.name]" [required]="field.required" />
+          } @else {
+            <select [name]="field.name" [(ngModel)]="values[field.name]" [required]="field.required">
+              <option [ngValue]="null">Select a value</option>
+              @for (option of field.options ?? []; track option) {
+                <option [ngValue]="option">{{option}}</option>
+              }
+            </select>
+          }
+        </label>
+      }
+    </div>
+    <button type="submit" [disabled]="loading || deployedStatic">
+      {{loading ? 'Predicting...' : 'Check Default Risk'}}
+    </button>
+  </form>
+
+  @if (error) {
+    <p class="error" role="alert">{{error}}</p>
+  }
+
+  @if (result) {
+    <section class="result">
+      <h2>Prediction Result</h2>
+      <p class="prediction" [class.high-risk]="result.prediction === 'Default'">
+        <strong>{{result.prediction}}</strong>
+        (risk probability: {{(result.risk_probability * 100).toFixed(1)}}%, threshold: {{result.threshold_used}})
+      </p>
+
+      <h3>Recommendations</h3>
+      <ul>
+        @for (rec of result.recommendations; track rec) {
+          <li>{{rec}}</li>
+        }
+      </ul>
+
+      <p class="disclaimer">{{result.disclaimer}}</p>
+    </section>
+  }
+</main>
