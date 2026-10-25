@@ -17,7 +17,7 @@ export class App {
   result: PredictionResponse | null = null;
   error: string | null = null;
   loading = false;
-  deployedStatic = false;
+  deployedStatic = true;
 
   constructor(private api: PredictionService, private cdr: ChangeDetectorRef) {
     for (const field of this.fields) {
