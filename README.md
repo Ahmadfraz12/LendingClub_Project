@@ -87,11 +87,14 @@ ng serve --open --proxy-config proxy.conf.json
 
 Visit `http://localhost:4200`.
 
-## Live Demo (Static Only)
+## Live Demo
 
-https://ahmadfraz12.github.io/LendingClub_Project/
+Frontend: https://ahmadfraz12.github.io/LendingClub_Project/
+Backend API: https://lendingclub-api.onrender.com
 
-This shows the UI only — predictions require running the backend locally as described above.
+The live site makes real predictions against the deployed Flask/XGBoost backend.
+Note: the backend is hosted on Render's free tier, which sleeps after 15 minutes
+of inactivity — the first request after idle time may take 30-60 seconds.
 
 ## Disclaimer
 
